@@ -79,11 +79,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
           // Spacer(),
           // CustomContentMessage(),
 
-          Container(
-            width: double.infinity,
-            height: 20,
-            color: Colors.red,
-          ),
         ],
       ),
     );
@@ -119,6 +114,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
     setState(() {}); // Trigger rebuild
 
     // Prevent exceeding the number of available cards
+    print("$counter ");
+
     if (counter > 3) {
       counter = 4;
       print("counter =4");
@@ -126,6 +123,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 
   void deleteContentMessage() {
+    if (counter == 0) {
+      counter = 1;
+    }
     print(counter);
     counter--;
     if (counter == 3) {
@@ -143,8 +143,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
         isVisible: false,
       );
       setState(() {});
-    }
-    if (counter == 1) {
+    } else if (counter == 1) {
       card1 = CustomContentMessage(
         name: "",
         phoneNumber: "",
