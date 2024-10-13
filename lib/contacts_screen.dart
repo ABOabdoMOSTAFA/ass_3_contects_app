@@ -156,6 +156,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
     ));
     nameController.text = "";
     phoneController.text = "";
+    isTrueName = false;
+    isTrueNumber = false;
     index++;
     setState(() {});
   }
