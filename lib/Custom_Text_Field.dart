@@ -6,13 +6,15 @@ class CustomTextField extends StatelessWidget {
   IconData iconData;
   TextEditingController controller;
   bool isTyping;
+  TextInputType keyboardTyping;
 
   CustomTextField(
       {required this.hintText,
       required this.iconData,
       required this.controller,
       required this.isTyping,
-      required this.nameError});
+      required this.nameError,
+      required this.keyboardTyping});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         cursorColor: Colors.black,
         controller: controller,
+        keyboardType: keyboardTyping,
         decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,

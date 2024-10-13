@@ -42,6 +42,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
             controller: nameController,
             isTyping: isTrueName,
             nameError: "name",
+            keyboardTyping: TextInputType.name,
           ),
           CustomTextField(
             hintText: "Enter Your Number Here",
@@ -49,6 +50,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
             controller: phoneController,
             isTyping: isTrueNumber,
             nameError: "phone number ",
+            keyboardTyping: TextInputType.phone,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 35.0, horizontal: 10),

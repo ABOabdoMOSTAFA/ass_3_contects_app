@@ -17,8 +17,8 @@ class CustomContentMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // CustomTextFieldData data = ModalRoute.of(context)?.settings.arguments as CustomTextFieldData;
-    return Visibility(
-      visible: isVisible,
+    return Offstage(
+      offstage: !isVisible,
       child: Container(
         height: 100,
         width: double.infinity,
