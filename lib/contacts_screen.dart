@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class ContactsScreen extends StatefulWidget {
   static const String routeName = "ContactsScreen";
 
+  ContactsScreen();
+
   @override
   State<ContactsScreen> createState() => _ContactsScreenState();
 }
@@ -15,11 +17,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   TextEditingController phoneController = TextEditingController();
 
-  CustomContentMessage card1 = CustomContentMessage();
-
-  CustomContentMessage card2 = CustomContentMessage();
-
-  CustomContentMessage card3 = CustomContentMessage();
+  List<CustomContentMessage> cards = [];
 
   @override
   Widget build(BuildContext context) {
@@ -71,14 +69,21 @@ class _ContactsScreenState extends State<ContactsScreen> {
             ),
           ),
 
-          card1,
-          card2,
-          card3,
-          // Spacer(),
-          // CustomContentMessage(),
-          // Spacer(),
-          // CustomContentMessage(),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) => cards[index],
+              scrollDirection: Axis.vertical,
+              itemCount: cards.length,
+            ),
+          )
 
+          // card1,
+          // card2,
+          // card3,
+          // Spacer(),
+          // CustomContentMessage(),
+          // Spacer(),
+          // CustomContentMessage(),
         ],
       ),
     );
@@ -86,72 +91,99 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   int counter = 1;
 
+  // void createContentMessage() {
+  //   print("oooooooooooooooooooooooo");
+  //   if (counter == 1) {
+  //     card1 = CustomContentMessage(
+  //       name: nameController.text,
+  //       phoneNumber: phoneController.text,
+  //       isVisible: true,
+  //     );
+  //   } else if (counter == 2) {
+  //     card2 = CustomContentMessage(
+  //       name: nameController.text,
+  //       phoneNumber: phoneController.text,
+  //       isVisible: true,
+  //     );
+  //   } else if (counter == 3) {
+  //     card3 = CustomContentMessage(
+  //       name: nameController.text,
+  //       phoneNumber: phoneController.text,
+  //       isVisible: true,
+  //     );
+  //   } else {
+  //     return;
+  //   }
+  //
+  //   counter++;
+  //   setState(() {}); // Trigger rebuild
+  //
+  //   // Prevent exceeding the number of available cards
+  //   print("$counter ");
+  //
+  //   if (counter > 3) {
+  //     counter = 4;
+  //     print("counter =4");
+  //   }
+  // }
+  int index = 0;
+
   void createContentMessage() {
-    print("oooooooooooooooooooooooo");
-    if (counter == 1) {
-      card1 = CustomContentMessage(
-        name: nameController.text,
-        phoneNumber: phoneController.text,
-        isVisible: true,
-      );
-    } else if (counter == 2) {
-      card2 = CustomContentMessage(
-        name: nameController.text,
-        phoneNumber: phoneController.text,
-        isVisible: true,
-      );
-    } else if (counter == 3) {
-      card3 = CustomContentMessage(
-        name: nameController.text,
-        phoneNumber: phoneController.text,
-        isVisible: true,
-      );
-    } else {
+    if (cards.length == 3) {
+      index = 2;
+      print(index);
       return;
     }
-
-    counter++;
-    setState(() {}); // Trigger rebuild
-
-    // Prevent exceeding the number of available cards
-    print("$counter ");
-
-    if (counter > 3) {
-      counter = 4;
-      print("counter =4");
-    }
+    cards.add(CustomContentMessage(
+      name: nameController.text,
+      phoneNumber: phoneController.text,
+      isVisible: true,
+    ));
+    index++;
+    setState(() {});
   }
 
+  // void deleteContentMessage() {
+  //   if (counter == 0) {
+  //     counter = 1;
+  //   }
+  //   print(counter);
+  //   counter--;
+  //   if (counter == 3) {
+  //     // card3 ..isVisible =false ..name="" ..phoneNumber="";
+  //     card3 = CustomContentMessage(
+  //       name: "",
+  //       phoneNumber: "",
+  //       isVisible: false,
+  //     );
+  //     setState(() {});
+  //   } else if (counter == 2) {
+  //     card2 = CustomContentMessage(
+  //       name: "",
+  //       phoneNumber: "",
+  //       isVisible: false,
+  //     );
+  //     setState(() {});
+  //   } else if (counter == 1) {
+  //     card1 = CustomContentMessage(
+  //       name: "",
+  //       phoneNumber: "",
+  //       isVisible: false,
+  //     );
+  //     setState(() {});
+  //   } else {
+  //     return;
+  //   }
+  // }
   void deleteContentMessage() {
-    if (counter == 0) {
-      counter = 1;
-    }
-    print(counter);
-    counter--;
-    if (counter == 3) {
-      // card3 ..isVisible =false ..name="" ..phoneNumber="";
-      card3 = CustomContentMessage(
-        name: "",
-        phoneNumber: "",
-        isVisible: false,
-      );
-      setState(() {});
-    } else if (counter == 2) {
-      card2 = CustomContentMessage(
-        name: "",
-        phoneNumber: "",
-        isVisible: false,
-      );
-      setState(() {});
-    } else if (counter == 1) {
-      card1 = CustomContentMessage(
-        name: "",
-        phoneNumber: "",
-        isVisible: false,
-      );
-      setState(() {});
-    } else {
+    if (cards.isEmpty) {
       return;
     }
+
+    print(index);
+    cards.removeAt(index);
+    print("error");
+    index--;
+    setState(() {});
   }
 }
