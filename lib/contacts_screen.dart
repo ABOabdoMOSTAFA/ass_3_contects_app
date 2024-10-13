@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 
 class ContactsScreen extends StatefulWidget {
   static const String routeName = "ContactsScreen";
-
-  ContactsScreen();
+ const ContactsScreen({super.key});
 
   @override
   State<ContactsScreen> createState() => _ContactsScreenState();
@@ -17,7 +16,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   TextEditingController phoneController = TextEditingController();
 
-  List<CustomContentMessage> cards = [];
+  final List<CustomContentMessage> cards = [];
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +26,29 @@ class _ContactsScreenState extends State<ContactsScreen> {
         backgroundColor: Colors.blueAccent,
         title: Container(
             alignment: Alignment.center,
-            decoration: BoxDecoration(),
-            child: Text(
+            child: const Text(
               "Contacts Screen",
               style: TextStyle(
                 color: Colors.white,
               ),
             )),
       ),
-      backgroundColor: Color(0xFF9e9e9e),
+      backgroundColor: const Color(0xFF9e9e9e),
       body: Column(
         children: [
           CustomTextField(
             hintText: "Enter Your Name Here",
             iconData: Icons.edit,
             controller: nameController,
+            isTyping: isTrueName,
+            nameError: "name",
           ),
           CustomTextField(
             hintText: "Enter Your Number Here",
             iconData: Icons.phone,
             controller: phoneController,
+            isTyping: isTrueNumber,
+            nameError: "phone number ",
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 35.0, horizontal: 10),
@@ -57,14 +59,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   colorBottom: Colors.blueAccent,
                   onPressed: createContentMessage,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 4,
                 ),
-                CustomBottom(
-                  titleBottom: "Delete",
-                  colorBottom: Colors.red,
-                  onPressed: deleteContentMessage,
-                )
               ],
             ),
           ),
@@ -126,19 +123,39 @@ class _ContactsScreenState extends State<ContactsScreen> {
   //     print("counter =4");
   //   }
   // }
-  int index = 0;
+  int index = -1;
+  bool isTrueName = false;
+  bool isTrueNumber = false;
 
   void createContentMessage() {
+    if (nameController.text.isEmpty || phoneController.text.isEmpty) {
+      if (nameController.text.isEmpty && phoneController.text.isEmpty) {
+        isTrueName = true;
+        isTrueNumber = true;
+        setState(() {});
+        return;
+      } else if (nameController.text.isEmpty) {
+        isTrueName = true;
+        setState(() {});
+        return;
+      } else {
+        isTrueNumber = true;
+        setState(() {});
+        return;
+      }
+    }
     if (cards.length == 3) {
       index = 2;
-      print(index);
       return;
     }
     cards.add(CustomContentMessage(
       name: nameController.text,
       phoneNumber: phoneController.text,
       isVisible: true,
+      onPressed: deleteContentMessage,
     ));
+    nameController.text = "";
+    phoneController.text = "";
     index++;
     setState(() {});
   }
@@ -179,11 +196,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
     if (cards.isEmpty) {
       return;
     }
-
     print(index);
-    cards.removeAt(index);
-    print("error");
+    if (index == 0) {
+      cards.removeAt(index);
+    } else if (index == 1) {
+      cards.removeAt(index);
+    } else {
+      cards.removeAt(index);
+    }
+
     index--;
+
     setState(() {});
   }
 }
